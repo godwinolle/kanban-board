@@ -13,7 +13,7 @@ const TaskStyle = {
 
 //handleEvent is for the function that selects the function
 //task is the description of certain task
-const Task = ({ task, handleEvent, selectedEvent }) => {
+const Task = ({ task, handleEvent }) => {
     return(
         <div onClick={ handleEvent }style={ TaskGroupStyle }>
             <p style={ TaskStyle }>{ task }</p>

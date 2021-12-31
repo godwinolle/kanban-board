@@ -1,4 +1,5 @@
 import './App.css';
+import TaskProvider from './contexts/GlobalState';
 
 //importing components
 import Stages from './components/Stages/Stages';
@@ -7,20 +8,24 @@ export const STAGE_NAMES = ["Backlog", "To Do", "Ongoing", "Done"];
 
 export const FAKE_TASKS = [
   {
-    task: 'Move Kanban into To Do',
+    task: 'Backlog Task 1',
     taskID: 0
   },
   {
-    task: 'Work on Kanban Board Design',
+    task: 'Backlog Task 2',
     taskID: 0
   },
   {
-    task: 'Work on Kanban Board',
+    task: 'To-Do Task 3',
     taskID: 1
   },
   {
-    task: 'Kanban Board',
+    task: 'Ongoing Task 4',
     taskID: 2
+  },
+  {
+    task: 'Completed Task 5',
+    taskID: 3
   }
 ]
 
@@ -35,18 +40,22 @@ const StagesStyle = {
 }
 
 function App() {
+  localStorage.setItem('Task', JSON.stringify(FAKE_TASKS))
+  //console.log(JSON.parse(localStorage.getItem('Task')))
   return (
     <div style={ AppStyle } className="App">
       <h1>Kanban Board</h1>
-      <div style = { StagesStyle }>
-        {
-          STAGE_NAMES.map((stage, index) => {
-            return (
-              <Stages key={index} name={stage} stageId={index}/>
-            )
-          })
-        }
-      </div>
+      <TaskProvider>
+        <div style = { StagesStyle }>
+          {
+            STAGE_NAMES.map((stage, index) => {
+              return (
+                <Stages key={index} name={stage} stageId={index}/>
+              )
+            })
+          }
+        </div>
+      </TaskProvider>
     </div>
   );
 }

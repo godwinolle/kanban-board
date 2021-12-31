@@ -1,5 +1,6 @@
 import { Button, Icon } from "@blueprintjs/core";
-import { FAKE_TASKS } from "../../App";
+import { useContext } from "react";
+import { TaskContext } from "../../contexts/GlobalState";
 
 const SelectedTaskOptionsStyle = {
     marginTop: '10px',
@@ -23,13 +24,27 @@ const ForwardAndBackIconStyle = {
 }
 
 
-const CheckStageNameForOptions = ({ stageId, handleEvent }) => {
+const CheckStageNameForOptions = ({ stageId, taskSelected }) => {
+    let { deleteItemFromArray, forwardItemIntoNewGroup, backwardItemIntoPreviousGroup } = useContext(TaskContext);
+
+    const deleteItem = () => {
+        deleteItemFromArray(taskSelected)
+    }
+
+    const forwardItem = () => {
+        forwardItemIntoNewGroup(taskSelected)
+    }
+
+    const backwardItem = () => {
+        backwardItemIntoPreviousGroup(taskSelected)
+    }
+
     if(stageId === 0)  {
         //console.log('Stage 1')
         return (
             <div style={ SelectedTaskOptionsStyle }>
-                <Button style={ ForwardAndBackIconStyle }><Icon icon="step-forward" style={ IconStyle }/> Forward</Button>
-                <Button onClick={ handleEvent } style={ DeleteIconStyle }><Icon icon="cross" style={ IconStyle }/>Delete</Button>
+                <Button onClick={ forwardItem } style={ ForwardAndBackIconStyle }><Icon icon="step-forward" style={ IconStyle }/> Forward</Button>
+                <Button onClick={ deleteItem } style={ DeleteIconStyle }><Icon icon="cross" style={ IconStyle }/>Delete</Button>
             </div>
         )
     } else if(stageId === 3) {
@@ -37,15 +52,15 @@ const CheckStageNameForOptions = ({ stageId, handleEvent }) => {
         return (
             <div style={ SelectedTaskOptionsStyle }>
                 <Button style={ ForwardAndBackIconStyle }><Icon icon="step-backward" style={ IconStyle }/> Back</Button>
-                <Button style={ DeleteIconStyle }><Icon icon="cross" style={ IconStyle }/> Delete</Button>
+                <Button onClick={ deleteItem } style={ DeleteIconStyle }><Icon icon="cross" style={ IconStyle }/> Delete</Button>
             </div>
         )
     } 
     return (
         <div style={ SelectedTaskOptionsStyle }>
-            <Button style={ ForwardAndBackIconStyle }><Icon icon="step-backward" style={ IconStyle }/> Back</Button>
-            <Button style={ ForwardAndBackIconStyle }><Icon icon="step-forward" style={ IconStyle }/> Forward</Button>
-            <Button style={ DeleteIconStyle }><Icon icon="cross" style={ IconStyle }/>Delete</Button>
+            <Button onClick={ backwardItem } style={ ForwardAndBackIconStyle }><Icon icon="step-backward" style={ IconStyle }/> Back</Button>
+            <Button onClick={ forwardItem } style={ ForwardAndBackIconStyle }><Icon icon="step-forward" style={ IconStyle }/> Forward</Button>
+            <Button onClick={ deleteItem } style={ DeleteIconStyle }><Icon icon="cross" style={ IconStyle }/>Delete</Button>
         </div>
     )
 }
