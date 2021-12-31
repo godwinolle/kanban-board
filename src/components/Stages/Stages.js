@@ -88,4 +88,4 @@ const Stages = ({ name, stageId }) => {
     )
 }
 
-export default Stages
+export default Stages;
